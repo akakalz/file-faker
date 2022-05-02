@@ -1,9 +1,17 @@
-from faker import Faker
+# from faker import Faker
 from example_config import config
-from src.file_faker import FileFaker
+from delimited_faker.delimited_faker import DelimitedFaker
+from datetime import datetime
 
 
-ff = FileFaker(config)
+# f = Faker()
+# f.seed_instance("this_seed")
+# print(f.profile())
+# print(f.profile())
 
+ff = DelimitedFaker(config)
+
+then = datetime.utcnow()
 ff.fake()
-print("done")
+now = datetime.utcnow()
+print("done", str(now - then))  # done 0:00:01.790577 worst case so far

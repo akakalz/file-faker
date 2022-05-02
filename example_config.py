@@ -1,9 +1,9 @@
-from src.file_faker import FileFakerConfig, DelimitedField
+from abstracts.file_faker import FileFakerConfig
+from abstracts.field import DelimitedField
 
 
 config = FileFakerConfig(
     file_name="example_file.txt",
-    file_type="delimited",
     fields=[
         DelimitedField(name="full name", type="name"),
         DelimitedField(name="address", type="address_line_1"),
@@ -16,6 +16,6 @@ config = FileFakerConfig(
         DelimitedField(name="balance", type="currency"),
     ],
     has_header=True,
-    row_count=10000,
+    row_count=100000,
     delimiter="|",
 )

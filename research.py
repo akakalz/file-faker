@@ -1,6 +1,6 @@
 # from faker import Faker
 from example_config import config
-from delimited_faker.file_faker import DelimitedFaker
+from delimited_faker.delimited_faker import DelimitedFaker
 from datetime import datetime
 
 

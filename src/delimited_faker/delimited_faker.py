@@ -1,9 +1,8 @@
-from faker import Faker
 from typing import List
 import csv
 
 from abstracts.faker_config import FileFakerConfig
-from abstracts.field import FieldType, DelimitedField
+from abstracts.field import FieldType
 from abstracts.file_faker import FileFaker
 from .field_builder import FieldBuilder
 
@@ -36,9 +35,11 @@ class DelimitedFaker(FileFaker):
         with open(self._out_file, "w") as out_file:
             csv_writer = csv.writer(out_file, delimiter=self.config.delimiter, quotechar='"', quoting=csv.QUOTE_MINIMAL)
             if self.config.has_header:
-                csv_writer.writerow(self._build_header())
-            for _ in range(self.config.row_count):
-                csv_writer.writerow(self._build_line())
+                csv_writer.writerow([x.name for x in self.config.fields])
+            csv_writer.writerows([
+                [self._func_map[field.type] for field in self.config.fields]
+                for _ in range(self.config.row_count)
+            ])
 
     def _fake_with_seed_list(self) -> None:
         with open(self._out_file, "w") as out_file:
@@ -47,26 +48,3 @@ class DelimitedFaker(FileFaker):
             for i in range(self.config.row_count):
                 self._faker.seed_instance(self._seeds[i])
                 out_file.writerow(self._build_line())
-
-    def _build_field(self, field_config: DelimitedField) -> str:
-        """
-        outputs a specific field for a line
-        """
-        return str(self._func_map[field_config.type])
-
-    def _build_line(self, line_seed: str = None) -> list:
-        """
-        outputs a specific line
-        """
-        fields = []
-        if line_seed:
-            Faker.seed(line_seed)
-        for field in self.config.fields:
-            fields.append(self._build_field(field))
-        return fields
-
-    def _build_header(self) -> list:
-        return [
-            x.name
-            for x in self.config.fields
-        ]

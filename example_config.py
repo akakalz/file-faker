@@ -16,6 +16,6 @@ config = FileFakerConfig(
         DelimitedField(name="balance", type="currency"),
     ],
     has_header=True,
-    row_count=10000,
+    row_count=100000,
     delimiter="|",
 )

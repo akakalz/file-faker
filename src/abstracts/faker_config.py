@@ -1,11 +1,12 @@
 from dataclasses import dataclass
-from typing import Any, List
+from typing import List, Union
+from abstracts.field import FixedWidthField, DelimitedField
 
 
 @dataclass(frozen=True)
 class FileFakerConfig:
     file_name: str
-    fields: List[Any]
+    fields: List[Union[FixedWidthField, DelimitedField]]
     has_header: bool
     row_count: int
     delimiter: str = ""
